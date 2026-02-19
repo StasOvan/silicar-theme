@@ -1,0 +1,25 @@
+body {
+    background-color: #F0F0DB;
+    color: #222222;
+}
+a {
+    color: #628141;
+}
+a:hover {
+    color: #E67E22;
+}
+.btn, button, .wp-block-button__link, 
+.woocommerce #respond input#submit, 
+.woocommerce a.button, 
+.woocommerce button.button, 
+.woocommerce input.button {
+    background-color: #E67E22 !important;
+    color: #FFFFFF !important;
+}
+.woocommerce .product-card {
+    background: #FFFFFF;
+    border: 1px solid #628141;
+}
+.contact-form-section {
+    background: #e0e0cc;
+}

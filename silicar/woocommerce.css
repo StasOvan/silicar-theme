@@ -1,0 +1,315 @@
+/**
+ * Стили для WooCommerce
+ */
+
+/* Общие контейнеры */
+.woocommerce .container,
+.woocommerce-page .container {
+    background: #fff;
+    padding: 30px;
+    border-radius: 12px;
+    margin: 40px auto;
+    color: #333;
+}
+
+/* Хлебные крошки */
+.woocommerce .woocommerce-breadcrumb {
+    margin-bottom: 20px;
+    color: #999;
+}
+
+.woocommerce .woocommerce-breadcrumb a {
+    color: #333;
+    text-decoration: none;
+}
+
+.woocommerce .woocommerce-breadcrumb a:hover {
+    color: #ed0000;
+}
+
+/* Страница товара */
+.woocommerce div.product {
+    background: #fff;
+}
+
+.woocommerce div.product .product_title {
+    font-family: 'Roboto Condensed', sans-serif;
+    font-size: 36px;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.woocommerce div.product p.price,
+.woocommerce div.product span.price {
+    color: #ed0000;
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.woocommerce div.product .woocommerce-product-rating {
+    margin-bottom: 15px;
+}
+
+.woocommerce div.product .woocommerce-product-details__short-description {
+    margin: 20px 0;
+    color: #666;
+}
+
+/* Количество и кнопка в корзину */
+.woocommerce div.product form.cart .button {
+    background-color: #ed0000;
+    color: #fff;
+    border: none;
+    padding: 14px 30px;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.woocommerce div.product form.cart .button:hover {
+    background-color: #555;
+}
+
+.woocommerce div.product form.cart .quantity input {
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+}
+
+/* Вкладки (описание, отзывы и т.д.) */
+.woocommerce div.product .woocommerce-tabs {
+    margin-top: 40px;
+}
+
+.woocommerce div.product .woocommerce-tabs ul.tabs {
+    margin: 0;
+    padding: 0;
+}
+
+.woocommerce div.product .woocommerce-tabs ul.tabs li {
+    background: #f8f9fa;
+    border: 1px solid #eee;
+    border-radius: 8px 8px 0 0;
+}
+
+.woocommerce div.product .woocommerce-tabs ul.tabs li.active {
+    background: #fff;
+    border-bottom-color: #fff;
+}
+
+.woocommerce div.product .woocommerce-tabs ul.tabs li a {
+    color: #333;
+    font-weight: 500;
+    padding: 10px 20px;
+}
+
+/* Корзина */
+.woocommerce table.shop_table {
+    border-collapse: collapse;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.woocommerce table.shop_table th {
+    background: #f8f9fa;
+    padding: 15px;
+    font-weight: 600;
+    color: #333;
+}
+
+.woocommerce table.shop_table td {
+    padding: 15px;
+    border-top: 1px solid #eee;
+}
+
+.woocommerce table.shop_table .product-remove a {
+    color: #ed0000;
+}
+
+.woocommerce table.shop_table .product-thumbnail img {
+    width: 50px;
+    border-radius: 4px;
+}
+
+.woocommerce .cart .button,
+.woocommerce-cart .wc-proceed-to-checkout a.checkout-button {
+    background-color: #ed0000;
+    color: #fff;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: background-color 0.2s;
+}
+
+.woocommerce .cart .button:hover,
+.woocommerce-cart .wc-proceed-to-checkout a.checkout-button:hover {
+    background-color: #555;
+}
+
+/* Оформление заказа */
+.woocommerce-checkout .woocommerce-billing-fields h3,
+.woocommerce-checkout .woocommerce-shipping-fields h3,
+.woocommerce-checkout #order_review_heading {
+    font-family: 'Roboto Condensed', sans-serif;
+    font-size: 24px;
+    margin: 30px 0 20px;
+    color: #333;
+}
+
+.woocommerce-checkout .form-row input,
+.woocommerce-checkout .form-row select,
+.woocommerce-checkout .form-row textarea {
+    padding: 12px 16px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 16px;
+    width: 100%;
+}
+
+.woocommerce-checkout .form-row input:focus,
+.woocommerce-checkout .form-row select:focus,
+.woocommerce-checkout .form-row textarea:focus {
+    border-color: #999;
+    outline: none;
+}
+
+.woocommerce-checkout .select2-container .select2-selection--single {
+    height: 48px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+}
+
+.woocommerce-checkout .select2-container--default .select2-selection--single .select2-selection__rendered {
+    line-height: 48px;
+    padding-left: 16px;
+}
+
+.woocommerce-checkout .select2-container--default .select2-selection--single .select2-selection__arrow {
+    height: 46px;
+}
+
+/* Оплата */
+.woocommerce-checkout #payment {
+    background: #f8f9fa;
+    border-radius: 8px;
+}
+
+.woocommerce-checkout #payment ul.payment_methods {
+    padding: 20px;
+    border-bottom: 1px solid #eee;
+}
+
+.woocommerce-checkout #payment .payment_box {
+    background: #fff;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    padding: 15px;
+    margin-top: 10px;
+}
+
+.woocommerce-checkout #payment .place-order {
+    padding: 20px;
+}
+
+.woocommerce-checkout #payment #place_order {
+    background-color: #ed0000;
+    color: #fff;
+    border: none;
+    padding: 15px 30px;
+    font-size: 18px;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+    width: 100%;
+    transition: background-color 0.2s;
+}
+
+.woocommerce-checkout #payment #place_order:hover {
+    background-color: #555;
+}
+
+/* Сообщения */
+.woocommerce-message,
+.woocommerce-info,
+.woocommerce-error {
+    padding: 15px 20px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    border: none;
+    color: #fff;
+}
+
+.woocommerce-message {
+    background: #4CAF50;
+}
+
+.woocommerce-info {
+    background: #2196F3;
+}
+
+.woocommerce-error {
+    background: #f44336;
+}
+
+.woocommerce-message a,
+.woocommerce-info a,
+.woocommerce-error a {
+    color: #fff;
+    text-decoration: underline;
+}
+
+/* Связанные товары */
+.woocommerce .related.products h2 {
+    font-family: 'Roboto Condensed', sans-serif;
+    font-size: 28px;
+    margin: 40px 0 20px;
+    color: #333;
+}
+
+/* Пагинация */
+.woocommerce nav.woocommerce-pagination ul {
+    border: none;
+    margin-top: 30px;
+}
+
+.woocommerce nav.woocommerce-pagination ul li {
+    border: none;
+    margin-right: 5px;
+}
+
+.woocommerce nav.woocommerce-pagination ul li a,
+.woocommerce nav.woocommerce-pagination ul li span {
+    background: #fff;
+    padding: 10px 15px;
+    border-radius: 8px;
+    color: #333;
+    text-decoration: none;
+    border: 1px solid #eee;
+}
+
+.woocommerce nav.woocommerce-pagination ul li span.current {
+    background: #ed0000;
+    color: #fff;
+    border-color: #ed0000;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .woocommerce .container,
+    .woocommerce-page .container {
+        padding: 20px;
+    }
+    
+    .woocommerce div.product .product_title {
+        font-size: 28px;
+    }
+    
+    .woocommerce table.shop_table th,
+    .woocommerce table.shop_table td {
+        padding: 10px;
+    }
+}

@@ -1,0 +1,363 @@
+/*
+Theme Name: Silicar
+Author: Stas (t.me/cmacuk)
+Description: Тема для интернет-магазина с WooCommerce, три цветовые схемы, переключение слева.
+Version: 1.0
+*/
+
+/* ---------- Базовые сбросы ---------- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+strong { font-family: "Roboto Condensed", sans-serif; }
+
+.roboto-condensed {
+    font-family: "Roboto Condensed", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 600;
+    font-style: normal;
+}
+
+h1 { font-family: 'Roboto Condensed'; font-size: 32px; text-align: center; line-height: 1.05; }
+h2 { font-family: 'Roboto Condensed'; font-size: 42px; }
+
+body {
+    font-family: Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    line-height: 1.6;
+    transition: background-color 1s, color 0.3s;
+    background-color: #232930;;
+    color: floralwhite;
+    min-height: 100vh;
+    position: relative;
+    overflow-x: hidden; /* Скрываем возможную прокрутку от широкого фона */
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    /* Увеличиваем площадь покрытия */
+    top: -25%; 
+    left: -25%;
+    width: 150%;
+    height: 150%;
+    z-index: -1;
+    background: url('assets/back.webp') repeat;
+    /* Фильтры и трансформация */
+    filter: hue-rotate(204deg) saturate(62%) brightness(0.4);
+    transform: rotate(15deg);
+    will-change: transform;     /* Для плавности и производительности */
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+
+/* ---------- Шапка (всегда белая) ---------- */
+.site-header {
+    background: #fff;
+    padding: 10px 0;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 1);
+    color: #555;
+    margin-top: 10px;
+}
+
+.header-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* Логотип */
+.logo { min-width: 250px; } 
+.site-title {
+    font-size: 24px;
+    font-weight: 700;
+    color: #333;
+    text-decoration: none;
+}
+
+/* Контакты и соцсети */
+.header-contacts {
+    display: flex;
+    align-items: flex-end;
+    margin-top: 8px;
+    min-width: 250px;
+    flex-direction: column-reverse;
+}
+.phone {
+    font-size: 18px;
+    font-weight: 600;
+    color: #021ea7;
+    text-decoration: none;
+    transition: color 1s;
+    border-bottom: 1px dotted #001397;
+    height: 30px;
+}
+.phone:hover {
+    color: #0088cc;
+}
+.socials {
+    display: flex;
+    gap: 18px;
+    height: 36px;
+}
+
+/* ---------- Меню (горизонтальное, светлое) ---------- */
+.main-menu {
+    background: #f8f9fa;
+    border-top: 1px solid #eee;
+    border-bottom: 1px solid #eee;
+}
+.primary-menu {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+.primary-menu li {
+    margin-right: 30px;
+}
+.primary-menu a {
+    display: block;
+    padding: 15px 0;
+    color: #333;
+    text-decoration: none;
+    font-weight: 500;
+    position: relative;
+    transition: color 0.2s;
+}
+.primary-menu a:hover {
+    color: #000;
+}
+.primary-menu a::after {
+    content: '';
+    position: absolute;
+    bottom: 10px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: #333;
+    transition: width 0.2s;
+}
+.primary-menu a:hover::after {
+    width: 100%;
+}
+
+
+/* ---------- Текстовый блок (преимущества) ---------- */
+.text-section {
+    background: #fff;
+    padding: 40px;
+    border-radius: 12px;
+    margin: 40px auto;
+    max-width: 770px;
+}
+.text-section h2 {
+    margin-bottom: 20px;
+    font-size: 28px;
+    color: #333;
+}
+.text-section p {
+    margin-bottom: 15px;
+    color: #666;
+}
+
+/* ---------- Каталог товаров (Flexbox, центрирование, адаптив) ---------- */
+.products-section {
+    margin: 40px 0;
+}
+.products-section h2 {
+    margin-bottom: 30px;
+    color: #ffffff;
+    text-align: center;
+}
+
+.products-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;     /* центрируем карточки по горизонтали */
+    gap: 30px;                  /* отступы между карточками */
+    margin: 0 auto;
+}
+
+.product-card {
+    background: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    transition: transform 0.3s, box-shadow 0.3s;
+    width: 270px;               /* фиксированная ширина карточки */
+    flex: 0 0 auto;            /* запрещаем сжиматься и растягиваться */
+    position: relative;
+    height: 377px;
+}
+.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+.product-card a {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+.product-card img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+}
+.product-card h3 {
+    font-size: 24px;
+    margin: 15px 15px 10px;
+    color: #e10000;
+    font-family: 'Roboto Condensed';
+    font-weight: 400;
+    line-height: 1.3em;
+}
+.product-card .price {
+    margin: 0 15px 15px 15px;
+    font-size: 16px;
+    font-weight: 700;
+    color: #333;
+    position: absolute;
+    bottom: 0;
+    display: flex;
+    align-items: flex-end;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 90%;
+}
+.product-tags {
+    color: #999;
+}
+
+/* ---------- Форма обратной связи ---------- */
+.contact-form-section {
+    margin: 40px auto;
+    padding: 40px;
+    background: #1a3a5f;
+    border-radius: 12px;
+    max-width: 470px;
+}
+.contact-form-section form p {
+    margin-bottom: 20px;
+}
+.contact-form-section label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: #ffffff;
+}
+.contact-form-section input[type="text"],
+.contact-form-section input[type="tel"],
+.contact-form-section input[type="email"],
+.contact-form-section textarea {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: border-color 0.2s;
+}
+.contact-form-section input:focus,
+.contact-form-section textarea:focus {
+    border-color: #999;
+    outline: none;
+}
+.contact-form-section button {
+    background-color: #ed0000 !important;
+    color: #fff;
+    border: none;
+    padding: 14px 30px;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+.contact-form-section button:hover {
+    background: #555;
+}
+.alert.success {
+    background: #d4edda;
+    color: #155724;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+/* ---------- Подвал (всегда белый) ---------- */
+.site-footer {
+    background: #fff;
+    padding: 40px 0;
+    margin-top: 40px;
+    border-top: 1px solid #eee;
+}
+.footer-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.footer-logo .custom-logo {
+    max-height: 50px;
+}
+.footer-info p {
+    margin-bottom: 8px;
+    color: #666;
+}
+.footer-info a {
+    color: #333;
+    text-decoration: none;
+    border-bottom: 1px dotted #ccc;
+}
+.footer-info a:hover {
+    color: #000;
+    border-bottom-color: #333;
+}
+
+/* ---------- Адаптивность ---------- */
+@media (max-width: 768px) {
+    
+    .header-row {
+        flex-direction: column;
+        gap: 15px;
+    }
+    .header-contacts {
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+    }
+    .logo {min-width: unset;}
+    .primary-menu {flex-wrap: wrap;}
+    .primary-menu li {margin-right: 20px;}
+    .swiper {height: 300px;}
+}
+
+
+.social-telegram {
+    font-size: 27px;
+    color: rgb(78, 137, 247);
+}
+.social-whatsapp {
+    font-size: 27px;
+    color: green;
+}
+.social-max {
+    background-color: #8f3fff;
+    width: 26px;
+    height: 28px;
+    padding: 3px 1px 0px 3px;
+    border-radius: 7px;
+    margin-top: 6px;
+}
