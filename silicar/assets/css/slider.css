@@ -8,30 +8,29 @@
 .swiper {
     width: 100%;
     height: 400px;
-    border-radius: 12px;
     overflow: hidden;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
 }
 
 .swiper-slide {
     position: relative;
     transition: all 0.3s ease;
     opacity: 0.6;              /* приглушение неактивных слайдов */
-    filter: brightness(0.5) blur(2px); /* затемнение + лёгкое размытие */
-    transform: scale(0.9);      /* немного уменьшаем боковые */
+    filter: brightness(0.7) blur(2px); /* затемнение + лёгкое размытие */
+    transform: scale(0.9) !important;
 }
 
 .swiper-slide-active {
     opacity: 1;
     filter: brightness(1) blur(0);
-    transform: scale(1);
+    transform: scale(1) !important;
     z-index: 2;                 /* активный поверх других */
 }
-
+.swiper-slide-active img { border-radius: 15px; }
+    
 .swiper-slide img {
     width: 100%;
     height: 100%;
-    object-fit: cover;          /* cover, как требуется */
+    object-fit: cover;
 }
 
 .slide-content {
@@ -42,7 +41,7 @@
     padding: 30px;
     background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
     color: #fff;
-    pointer-events: none;       /* чтобы контент не мешал кликам по ссылке */
+    pointer-events: none; /* не мешал кликам по ссылке */
 }
 
 .slide-content h3 {

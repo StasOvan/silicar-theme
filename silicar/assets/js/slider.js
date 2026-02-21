@@ -9,12 +9,13 @@ document.addEventListener('DOMContentLoaded', function() {
             loop: true,
             initialSlide: 0,            // первый слайд становится центральным
             spaceBetween: 0,            // отступ между слайдами
+            grabCursor: true,
 
             // Пагинация и навигация
-            pagination: {
-                el: '.swiper-pagination',
-                clickable: true
-            },
+            // pagination: {
+            //     el: '.swiper-pagination',
+            //     clickable: true
+            // },
             navigation: {
                 nextEl: '.swiper-button-next',
                 prevEl: '.swiper-button-prev'

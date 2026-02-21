@@ -1,0 +1,188 @@
+/* Стили для модального окна выбора авто */
+.search-auto-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.7);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+}
+
+.search-auto-modal.active {
+    display: flex;
+}
+
+.search-auto-modal-content {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 400px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    position: relative;
+    animation: modalFadeIn 0.3s;
+}
+
+@keyframes modalFadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.search-auto-close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 24px;
+    cursor: pointer;
+    color: #999;
+    transition: color 0.2s;
+}
+
+.search-auto-close:hover {
+    color: #333;
+}
+
+.search-auto-modal-content h2 {
+    margin-top: 0;
+    color: #333;
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+}
+
+.search-auto-modal-content label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 600;
+    color: #555;
+}
+
+/* Поля ввода с автоподсказками */
+.search-auto-input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 5px;
+    border: 1px solid #1b00b1;
+    border-radius: 4px;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+.search-auto-input:focus {
+    outline: none;
+    border-color: #09005c;
+}
+
+.search-auto-input:disabled {
+    background-color: #f5f5f5;
+    cursor: not-allowed;
+}
+
+/* Контейнер подсказок */
+.search-auto-suggestions {
+    display: none;
+    position: absolute;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    max-height: 200px;
+    overflow-y: auto;
+    width: calc(100% - 60px); /* с учётом padding контейнера (30px слева и справа) */
+    z-index: 1100;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.search-auto-modal-content {
+    position: relative; /* для позиционирования подсказок */
+}
+
+.search-auto-suggestions .suggestion-item {
+    padding: 10px;
+    cursor: pointer;
+    border-bottom: 1px solid #eee;
+    color: #333;
+}
+
+.search-auto-suggestions .suggestion-item:hover {
+    background-color: #f0f0f0;
+}
+
+.search-auto-suggestions .suggestion-item:last-child {
+    border-bottom: none;
+}
+
+/* Выпадающий список для года */
+.search-auto-modal-content select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+    box-sizing: border-box;
+    background-color: white;
+    cursor: pointer;
+}
+
+.search-auto-modal-content select:focus {
+    outline: none;
+    border-color: #2b14fd;
+}
+
+.search-auto-modal-content select:disabled {
+    background-color: #f5f5f5;
+    cursor: not-allowed;
+}
+
+/* Кнопка поиска */
+.search-auto-button {
+    background-color: #fd5d14;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    font-size: 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%;
+    transition: background-color 0.3s;
+    font-weight: 600;
+}
+
+.search-auto-button:hover {
+    background-color: #e04e0e;
+}
+
+.search-auto-button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+/* Кнопка открытия модального окна */
+.search-btn {
+    background-color: #001f40;
+    color: white;
+    border: 1px solid #999;
+    padding: 12px 24px;
+    font-size: 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin: 0 auto;
+    transition: background-color 0.3s;
+    text-align: center;
+    width: 200px;
+}
+
+.search-btn:hover {
+    background-color: #0056b3;
+}
+
+/* Сообщение об ошибке */
+.search-auto-error {
+    color: #d32f2f;
+    font-size: 14px;
+    margin-bottom: 10px;
+    text-align: center;
+}

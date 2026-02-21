@@ -48,18 +48,26 @@ register_nav_menus( array(
 // 3. Подключение стилей и скриптов
 add_action( 'wp_enqueue_scripts', 'myshop_enqueue_assets' );
 function myshop_enqueue_assets() {
-    // Основные стили
+    $theme_uri = get_template_directory_uri();
+	
+	// Основные стили
     wp_enqueue_style( 'myshop-style', get_stylesheet_uri(), array(), '1.0' );
-    wp_enqueue_style( 'myshop-woocommerce', get_template_directory_uri() . '/woocommerce.css', array(), '1.0' );
+    wp_enqueue_style( 'myshop-woocommerce', $theme_uri . '/woocommerce.css', array(), '1.0' );
 
     // Swiper CSS JS CDN
     wp_enqueue_style( 'swiper-css', 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css', array(), '11.0' );
     wp_enqueue_script( 'swiper-js', 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js', array(), '11.0', true );
 
     // Стили и скрипт слайдера темы
-    wp_enqueue_style( 'myshop-slider', get_template_directory_uri() . '/assets/css/slider.css', array(), '1.0' );
-    wp_enqueue_script( 'myshop-slider', get_template_directory_uri() . '/assets/js/slider.js', array( 'swiper-js' ), '1.0', true );
-    
+    wp_enqueue_style( 'myshop-slider', $theme_uri . '/assets/css/slider.css', array(), '1.0' );
+    wp_enqueue_script( 'myshop-slider', $theme_uri . '/assets/js/slider.js', array( 'swiper-js' ), '1.0', true );
+	
+	// Стили и скрипт "Поиск авто"
+	wp_enqueue_style('search-auto-css', $theme_uri . '/assets/css/search-auto.css', array(), '1.0');
+    wp_enqueue_script('search-auto-js', $theme_uri . '/assets/js/search-auto.js', array(), '1.0', true);
+    wp_localize_script('search-auto-js', 'searchAutoData', array(
+        'jsonUrl' => $theme_uri . '/assets/autos.json'
+    ));
 }
 
 // 4. Регистрация типа записи "Слайдер"
@@ -241,5 +249,178 @@ function myshop_get_logo() {
 }
 
 
+
+
+
+/**
+ * Метабокс для выбора авто в товарах WooCommerce
+ */
+
+// Подключаем скрипты и стили для админки
+add_action('admin_enqueue_scripts', 'auto_meta_box_admin_scripts');
+function auto_meta_box_admin_scripts($hook) {
+    global $post_type;
+    if ($post_type !== 'product') return;
+    wp_enqueue_script('auto-meta-box', get_template_directory_uri() . '/assets/admin-auto-meta.js', array('jquery'), '1.0', true);
+    wp_localize_script('auto-meta-box', 'autoMetaData', array(
+        'jsonUrl' => get_template_directory_uri() . '/assets/autos.json',
+        'ajaxurl' => admin_url('admin-ajax.php'),
+        'nonce'   => wp_create_nonce('auto_meta_nonce')
+    ));
+}
+
+// Добавляем метабокс
+add_action('add_meta_boxes', 'add_auto_meta_box');
+function add_auto_meta_box() {
+    add_meta_box(
+        'auto_meta_box',
+        'Данные автомобиля',
+        'render_auto_meta_box',
+        'product',
+        'side',
+        'default'
+    );
+}
+
+// Вывод полей метабокса
+function render_auto_meta_box($post) {
+    wp_nonce_field('save_auto_meta', 'auto_meta_nonce');
+
+    // Загружаем JSON
+    $json_path = get_template_directory() . '/assets/autos.json';
+    $auto_data = array();
+    if (file_exists($json_path)) {
+        $auto_data = json_decode(file_get_contents($json_path), true);
+    }
+
+    // Получаем текущие значения из мета-полей (или из тегов, если хотим)
+    $brand = get_post_meta($post->ID, '_auto_brand', true);
+    $model = get_post_meta($post->ID, '_auto_model', true);
+    $year_from = get_post_meta($post->ID, '_auto_year_from', true);
+    $year_to = get_post_meta($post->ID, '_auto_year_to', true);
+    ?>
+    <div id="auto-meta-box">
+        <p>
+            <label for="auto_brand">Марка:</label><br>
+            <select name="auto_brand" id="auto_brand" style="width:100%;">
+                <option value="">Выберите марку</option>
+                <?php foreach ($auto_data as $brand_item): ?>
+                    <option value="<?php echo esc_attr($brand_item['id']); ?>" <?php selected($brand, $brand_item['id']); ?>>
+                        <?php echo esc_html($brand_item['name']); ?>
+                    </option>
+                <?php endforeach; ?>
+            </select>
+        </p>
+        <p>
+            <label for="auto_model">Модель:</label><br>
+            <select name="auto_model" id="auto_model" style="width:100%;">
+                <option value="">Сначала выберите марку</option>
+            </select>
+        </p>
+        <p>
+            <label for="auto_year_from">Год от:</label><br>
+            <select name="auto_year_from" id="auto_year_from" style="width:100%;">
+                <option value="">Выберите год</option>
+            </select>
+        </p>
+        <p>
+            <label for="auto_year_to">Год до:</label><br>
+            <select name="auto_year_to" id="auto_year_to" style="width:100%;">
+                <option value="">Выберите год</option>
+            </select>
+        </p>
+        <p class="description">Выберите марку, затем модель и укажите диапазон лет, для которых подходит товар.</p>
+    </div>
+
+    <script>
+        // Передаём текущие значения в JavaScript
+        var currentModel = <?php echo json_encode($model); ?>;
+        var currentYearFrom = <?php echo json_encode($year_from); ?>;
+        var currentYearTo = <?php echo json_encode($year_to); ?>;
+    </script>
+    <?php
+}
+
+// Сохранение мета-полей и обновление тегов
+add_action('save_post_product', 'save_auto_meta', 10, 2);
+function save_auto_meta($post_id, $post) {
+    if (!isset($_POST['auto_meta_nonce']) || !wp_verify_nonce($_POST['auto_meta_nonce'], 'save_auto_meta')) {
+        return;
+    }
+    if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) return;
+    if (!current_user_can('edit_post', $post_id)) return;
+
+    $brand = isset($_POST['auto_brand']) ? ($_POST['auto_brand']) : '';
+    $model = isset($_POST['auto_model']) ? ($_POST['auto_model']) : '';
+    $year_from = isset($_POST['auto_year_from']) ? intval($_POST['auto_year_from']) : '';
+    $year_to = isset($_POST['auto_year_to']) ? intval($_POST['auto_year_to']) : '';
+
+    // Сохраняем мета-поля
+    update_post_meta($post_id, '_auto_brand', $brand);
+    update_post_meta($post_id, '_auto_model', $model);
+    update_post_meta($post_id, '_auto_year_from', $year_from);
+    update_post_meta($post_id, '_auto_year_to', $year_to);
+
+    // Формируем теги с префиксами
+    $tags = array();
+
+    if ($brand) {
+        // Получаем имя марки из JSON (можно также хранить имя в мета, но для тега нужно имя)
+        // Загружаем JSON для получения имени по ID
+        $json_path = get_template_directory() . '/assets/autos.json';
+        if (file_exists($json_path)) {
+            $auto_data = json_decode(file_get_contents($json_path), true);
+            foreach ($auto_data as $b) {
+                if ($b['id'] === $brand) {
+                    $brand_name = $b['name'];
+                    $tags[] = 'brand-' . $brand_name; // или можно использовать оригинальное имя без sanitize? Лучше sanitize для слага
+                    break;
+                }
+            }
+        }
+    }
+
+    if ($model) {
+        // Для модели тоже нужно имя, но мы можем получить его из JSON по ID модели
+        // Это потребует поиска модели по всем маркам. Можно упростить: передавать имя модели через скрытое поле.
+        // В целях упрощения будем считать, что ID модели уже содержит читаемое имя, как в вашем JSON: например "HAVAL_H3" - но это не совсем имя для отображения.
+        // Лучше добавить скрытое поле с именем модели или сразу сохранять имя модели в мета.
+        // Для простоты сейчас сделаем так: будем использовать ID модели как тег (но это некрасиво).
+        // Решение: добавить ещё одно мета-поле для имени модели. Или при сохранении искать модель по ID в JSON.
+        // Давайте сделаем правильно: найдём имя модели по ID.
+        $json_path = get_template_directory() . '/assets/autos.json';
+        if (file_exists($json_path)) {
+            $auto_data = json_decode(file_get_contents($json_path), true);
+            foreach ($auto_data as $b) {
+                foreach ($b['models'] as $m) {
+                    if ($m['id'] === $model) {
+                        $model_name = $m['name'];
+                        $tags[] = 'model-' . $model_name;
+                        break 2;
+                    }
+                }
+            }
+        }
+    }
+
+    if ($year_from && $year_to) {
+        $tags[] = 'year-' . $year_from . '-' . $year_to;
+    }
+
+    // Удаляем старые теги с префиксами, чтобы не плодить дубли
+    $existing_tags = wp_get_post_terms($post_id, 'product_tag', array('fields' => 'names'));
+    $new_tags = array_merge($existing_tags, $tags); // Можно просто добавить новые, но лучше заменить все авто-теги
+
+    // Если нужно заменять только теги, начинающиеся с brand-, model-, year-, то нужно удалить их, а остальные оставить.
+    // Для простоты будем заменять только те, которые мы создаём: удалим все теги с нашими префиксами и добавим новые.
+    $filtered_tags = array();
+    foreach ($existing_tags as $tag) {
+        if (strpos($tag, 'brand-') !== 0 && strpos($tag, 'model-') !== 0 && strpos($tag, 'year-') !== 0) {
+            $filtered_tags[] = $tag;
+        }
+    }
+    $final_tags = array_merge($filtered_tags, $tags);
+    wp_set_post_terms($post_id, $final_tags, 'product_tag');
+}
 
 
